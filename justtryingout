@@ -1,0 +1,86 @@
+"""
+1) Should have already been logged in to via "Applicant Login"
+2) Prompt to get the link to the job application - paste link
+3) "Personal Details" - click on "Save and Continue" and then wait for 20 secs
+4) "Additional Details" - click on "Continue" and wait 20 secs
+5) "Work experience/School attachment/Internship" - click on "Continue" and wait 20 secs
+6) "Academic qualification" 
+7) "Character Referees"
+8) "Language Proficiency"
+9) "Membership of societies, clubs and association"
+10) "Awards & Prizes, CCA/Sport" 
+11) "Upload Document" - Click on "Most Recent Resume", wait 5 secs, then click "Continue"
+12) "Declaration" - Click on the "Agree" button, wait 5 secs, then click "Continue"
+13) "Submit Application" - Click on Dropdown box, select "Careers@Gov", click "Submit Application", then wait 15 secs
+14) Close window
+"""
+
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import getpass
+
+from selenium.webdriver.support.ui import WebDriverWait
+
+
+import unittest
+#next two lines are probably needed for the most part
+chrome_path = r"C:\Users\neoce\Dropbox\PythonStuff\chromedriver.exe"
+driver = webdriver.Chrome(chrome_path)
+
+pw = getpass.getpass()
+link = input("Give me the link to the job application: ")
+driver.get(link)
+x = 8
+username = "neocezheng@outlook.com"
+
+inputelement = driver.find_element_by_xpath("""//*[@id="sEmail"]""")
+inputelement.send_keys(username)
+driver.find_element_by_xpath("""//*[@id="checkagree"]""").click()
+driver.find_element_by_xpath("""//*[@id="button_next"]""").click()
+time.sleep(10)
+
+#inputname = driver.find_element_by_xpath("""//*[@id="sEmail"]""")
+#inputname.send_keys(username)
+
+inputpw = driver.find_element_by_xpath("""//*[@id="sPassword"]""")
+inputpw.send_keys(pw)
+
+inputpw.submit()
+time.sleep(20)
+
+driver.find_element_by_xpath("""//*[@id="button_saveContinue"]""").click()
+time.sleep(25)
+
+print ("Personal Details... success!")
+
+while x > 0:
+    driver.find_element_by_xpath("""//*[@id="saveContinue"]""").click()
+    time.sleep(25)
+    print ("Success!")
+    x -= 1
+
+driver.find_element_by_xpath("""//*[@id="q1376uploadBrowse"]/ul/li[1]/button""").click()
+time.sleep(5)
+
+driver.find_element_by_xpath("""//*[@id="saveContinue"]""").click()
+time.sleep(25)
+print ("Success!")
+
+driver.find_element_by_xpath("""//*[@id="q18422"]""").click()
+time.sleep(5)
+
+driver.find_element_by_xpath("""//*[@id="saveContinue"]""").click()
+time.sleep(25)
+print ("Success!")
+
+driver.find_element_by_xpath("""//*[@id="lApplicationSubSourceID_chzn"]/a""").click()
+driver.find_element_by_xpath("""//*[@id="lApplicationSubSourceID_chzn_o_9"]""").click()
+driver.find_element_by_xpath("""//*[@id="button_submitApplication"]""").click()
+time.sleep(20)
+
+print ("All Done! Job was successfully applied for!")
+
+driver.close()
+
